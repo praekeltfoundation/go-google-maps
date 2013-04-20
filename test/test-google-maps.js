@@ -143,6 +143,14 @@ describe("test_google_maps", function() {
             );
     });
 
+    it('should ask an destination_address when given a confirm_start_address', function() {
+        tester.check_state({current_state: 'confirm_start_address'},
+            '1',
+            'destination_address',
+            "^Where do you want to go to?");
+    });
+
+
     // it('should go to end when asked for them name', function() {
     //     check_state({current_state: 'start_address'}, '9 Friend street',
     //         'end', '^Thank you and bye bye!');
