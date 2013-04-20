@@ -87,4 +87,9 @@ describe("test_google_maps", function() {
         check_state(null, null, "start_address",
             "^Where are you now?");
     });
+
+    it('should go to end when asked for them name', function() {
+        check_state({current_state: 'start_address'}, '9 Friend street',
+            'end', '^Thank you and bye bye!');
+    });
 });
