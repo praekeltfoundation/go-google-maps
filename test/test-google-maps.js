@@ -88,6 +88,11 @@ describe("test_google_maps", function() {
             "^Where are you now?");
     });
 
+    it("should return a list of geolocated matches", function() {
+        check_state({current_state: 'start_address'}, '9 Friend street',
+            'confirm_start_address', '^Please confirm');
+    });
+
     it('should go to end when asked for them name', function() {
         check_state({current_state: 'start_address'}, '9 Friend street',
             'end', '^Thank you and bye bye!');
