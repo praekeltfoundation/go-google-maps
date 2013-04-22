@@ -70,6 +70,35 @@ function check_state(user, content, next_state, expected_response, setup,
     maybe_call(teardown, this, [api, saved_user]);
 }
 
+function check_close(user, next_state, setup, teardown) {
+    var api = fresh_api();
+    var from_addr = "1234567";
+    var user_key = "users." + from_addr;
+    api.kv_store[user_key] = user;
+
+    maybe_call(setup, this, [api]);
+
+    // send message
+    api.on_inbound_message({
+        cmd: "inbound-message",
+        msg: {
+            from_addr: from_addr,
+            session_event: "close",
+            content: "User Timeout",
+            message_id: "123"
+        }
+    });
+
+    // check result
+    var saved_user = api.kv_store[user_key];
+    assert.equal(saved_user.current_state, next_state);
+    assert.deepEqual(app.api.request_calls, []);
+    assert.equal(app.api.done_calls, 1);
+
+    maybe_call(teardown, this, [api, saved_user]);
+}
+
+
 function CustomTester(custom_setup, custom_teardown) {
     var self = this;
 
@@ -118,15 +147,27 @@ describe("test_api", function() {
 describe("test_google_maps", function() {
 
     var fixtures = [
-        'test/fixtures/geolocation.json'
+        'test/fixtures/geolocation.json',
+        'test/fixtures/directions.json'
     ];
 
     var tester = new CustomTester(function (api) {
-        api.config_store.config = JSON.stringify({});
+        api.config_store.config = JSON.stringify({
+            sms_tag: ['pool', 'addr']
+        });
         fixtures.forEach(function (f) {
             api.load_http_fixture(f);
         });
     });
+
+    var assert_single_sms = function(content) {
+        var teardown = function(api) {
+            var sms = api.outbound_sends[0];
+            assert.equal(api.outbound_sends.length, 1);
+            assert.equal(sms.content, content);
+        };
+        return teardown;
+    };
 
     it("should ask new users where they are", function () {
         tester.check_state(null, null, "start_address",
@@ -166,9 +207,33 @@ describe("test_google_maps", function() {
             );
     });
 
+    it('should ask do a directions lookup and send an SMS at the end.', function() {
+        var user = {
+            current_state: 'confirm_destination_address',
+            answers: {
+                start_address: '1600 Amphitheatre Parkway',
+                confirm_start_address: '37.4229181@-122.0854212@1600 Amphitheatre Parkway',
+                destination_address: '1600 Amphitheatre Parkway'
+            }
+        };
 
-    // it('should go to end when asked for them name', function() {
-    //     check_state({current_state: 'start_address'}, '9 Friend street',
-    //         'end', '^Thank you and bye bye!');
-    // });
+        var expected_sms = [
+            '1. Head north on Bay St toward Hagerman St',
+            '2. Turn right onto Dundas St W',
+            '3. Turn left onto the Don Valley Parkway ramp',
+            '4. Merge onto Don Valley Pkwy N',
+            '5. Take the ON-401 E exit',
+            '6. Merge onto Ontario 401 Express',
+            '7. Merge onto ON-401 E',
+            '8. Continue onto Autoroute du Souvenir/Autoroute 20 EEntering QC',
+            '9. Continue onto Autoroute 720 E',
+            '10. Take exit 6 toward Rue Berri',
+            '11. Merge onto Rue Saint Antoine E',
+            '12. Turn right onto Rue Bonsecours',
+            '13. Turn right onto Rue Notre-Dame EDestination will be on the right'
+        ].join('\n');
+
+        tester.check_state(user, '1', 'end', 'Directions sent via SMS!', null,
+            assert_single_sms(expected_sms));
+    });
 });
