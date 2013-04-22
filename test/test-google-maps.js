@@ -144,10 +144,13 @@ describe("test_google_maps", function() {
     });
 
     it('should ask an destination_address when given a confirm_start_address', function() {
-        tester.check_state({current_state: 'confirm_start_address'},
-            '1',
-            'destination_address',
-            "^Where do you want to go to?");
+        tester.check_state({current_state: 'destination_address'},
+            '1600 Amphitheatre Parkway',
+            'confirm_destination_address',
+            "^Select a match:[^]" +
+            "1. 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA[^]" +
+            "2. None of the above$"
+            );
     });
 
 
