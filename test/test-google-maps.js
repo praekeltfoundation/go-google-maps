@@ -128,7 +128,7 @@ describe("test_google_maps", function() {
         });
     });
 
-    it("new users should be asked where they are", function () {
+    it("should ask new users where they are", function () {
         tester.check_state(null, null, "start_address",
             "^Where are you now?");
     });
@@ -143,7 +143,20 @@ describe("test_google_maps", function() {
             );
     });
 
-    it('should ask an destination_address when given a confirm_start_address', function() {
+    it("should ask where they want to go to", function () {
+        var user = {
+            current_state: 'confirm_start_address',
+            answers: {
+                start_address: '1600 Amphitheatre Parkway'
+            }
+        };
+        tester.check_state(user,
+            '1',
+            "destination_address",
+            "^Where do you want to go?");
+    });
+
+    it('should ask a destination_address when given a confirm_start_address', function() {
         tester.check_state({current_state: 'destination_address'},
             '1600 Amphitheatre Parkway',
             'confirm_destination_address',
