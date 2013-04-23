@@ -233,7 +233,13 @@ describe("test_google_maps", function() {
             '13. Turn right onto Rue Notre-Dame EDestination will be on the right'
         ].join('\n');
 
-        tester.check_state(user, '1', 'end', 'Directions sent via SMS!', null,
+        tester.check_state(user,
+            '1',
+            'send_directions',
+            '^Directions sent via SMS![^]' +
+            '1. Get more directions[^]' +
+            '2. End session$',
+            null,
             assert_single_sms(expected_sms));
     });
 });
