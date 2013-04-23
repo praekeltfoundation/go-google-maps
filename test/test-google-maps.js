@@ -151,6 +151,22 @@ describe("test_google_maps", function() {
         'test/fixtures/directions.json'
     ];
 
+    var expected_sms = [
+        '1. Head north on Bay St toward Hagerman St',
+        '2. Turn right onto Dundas St W',
+        '3. Turn left onto the Don Valley Parkway ramp',
+        '4. Merge onto Don Valley Pkwy N',
+        '5. Take the ON-401 E exit',
+        '6. Merge onto Ontario 401 Express',
+        '7. Merge onto ON-401 E',
+        '8. Continue onto Autoroute du Souvenir/Autoroute 20 EEntering QC',
+        '9. Continue onto Autoroute 720 E',
+        '10. Take exit 6 toward Rue Berri',
+        '11. Merge onto Rue Saint Antoine E',
+        '12. Turn right onto Rue Bonsecours',
+        '13. Turn right onto Rue Notre-Dame EDestination will be on the right'
+    ].join('\n');
+
     var tester = new CustomTester(function (api) {
         api.config_store.config = JSON.stringify({
             sms_tag: ['pool', 'addr']
@@ -160,10 +176,11 @@ describe("test_google_maps", function() {
         });
     });
 
-    var assert_single_sms = function(content) {
+    var assert_single_sms = function(to_addr, content) {
         var teardown = function(api) {
             var sms = api.outbound_sends[0];
             assert.equal(api.outbound_sends.length, 1);
+            assert.equal(sms.to_addr, to_addr);
             assert.equal(sms.content, content);
         };
         return teardown;
@@ -217,29 +234,70 @@ describe("test_google_maps", function() {
             }
         };
 
-        var expected_sms = [
-            '1. Head north on Bay St toward Hagerman St',
-            '2. Turn right onto Dundas St W',
-            '3. Turn left onto the Don Valley Parkway ramp',
-            '4. Merge onto Don Valley Pkwy N',
-            '5. Take the ON-401 E exit',
-            '6. Merge onto Ontario 401 Express',
-            '7. Merge onto ON-401 E',
-            '8. Continue onto Autoroute du Souvenir/Autoroute 20 EEntering QC',
-            '9. Continue onto Autoroute 720 E',
-            '10. Take exit 6 toward Rue Berri',
-            '11. Merge onto Rue Saint Antoine E',
-            '12. Turn right onto Rue Bonsecours',
-            '13. Turn right onto Rue Notre-Dame EDestination will be on the right'
-        ].join('\n');
-
         tester.check_state(user,
             '1',
             'send_directions',
-            '^Directions sent via SMS![^]' +
-            '1. Get more directions[^]' +
-            '2. End session$',
+            '^Where should the directions be sent\\?[^]' +
+            '1. Myself[^]' +
+            '2. Someone else$'
+        );
+    });
+
+    it('should send an sms to the user if requested', function() {
+        var user = {
+            current_state: 'send_directions',
+            answers: {
+                start_address: '1600 Amphitheatre Parkway',
+                confirm_start_address: '37.4229181@-122.0854212@1600 Amphitheatre Parkway',
+                destination_address: '1600 Amphitheatre Parkway',
+                confirm_destination_address: '37.4229181@-122.0854212@1600 Amphitheatre Parkway'
+            }
+        };
+
+        tester.check_state(user,
+            '1',
+            'end',
+            '^Directions sent via SMS!',
             null,
-            assert_single_sms(expected_sms));
+            assert_single_sms('1234567', expected_sms));
+    });
+
+
+    it('should ask for a number to send to if the user requested that', function() {
+        var user = {
+            current_state: 'send_directions',
+            answers: {
+                start_address: '1600 Amphitheatre Parkway',
+                confirm_start_address: '37.4229181@-122.0854212@1600 Amphitheatre Parkway',
+                destination_address: '1600 Amphitheatre Parkway',
+                confirm_destination_address: '37.4229181@-122.0854212@1600 Amphitheatre Parkway'
+            }
+        };
+
+        tester.check_state(user,
+            '2',
+            'custom_to_addr',
+            '^Please specify the number to receive the directions:'
+        );
+    });
+
+    it('should send directions to the number the user supplied', function() {
+        var user = {
+            current_state: 'custom_to_addr',
+            answers: {
+                start_address: '1600 Amphitheatre Parkway',
+                confirm_start_address: '37.4229181@-122.0854212@1600 Amphitheatre Parkway',
+                destination_address: '1600 Amphitheatre Parkway',
+                confirm_destination_address: '37.4229181@-122.0854212@1600 Amphitheatre Parkway'
+            }
+        };
+
+        tester.check_state(user,
+            '27761234567',
+            'end',
+            '^Directions sent via SMS!',
+            null,
+            assert_single_sms('27761234567', expected_sms)
+        );
     });
 });
