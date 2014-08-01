@@ -1,6 +1,6 @@
 {
   "name": "go-google-maps",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A Vumi Go USSD application finding directions.",
   "main": "index.js",
   "directories": {
