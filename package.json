@@ -7,17 +7,27 @@
     "test": "test"
   },
   "dependencies": {
-    "vumigo_v01": "0.1.x"
+    "vumigo_v02": "~0.2",
+    "q": "~0.9",
+    "lodash": "~2.4.1",
+    "moment": "~2.5.1"
   },
   "devDependencies": {
-    "mocha": "~1.7.1"
+    "mocha": "~1.18",
+    "jshint": "~2.4.4",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-watch": "~0.6.0",
+    "grunt": "~0.4.4",
+    "grunt-mocha-test": "~0.10.0",
+    "grunt-contrib-jshint": "~0.9.2",
+    "grunt-cli": "~0.1.13"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha -R list"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/smn/go-google-maps"
+    "url": "git://github.com/praekelt/go-google-maps"
   },
   "keywords": [
     "vumi",
