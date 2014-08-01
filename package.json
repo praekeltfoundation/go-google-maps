@@ -2,7 +2,7 @@
   "name": "go-google-maps",
   "version": "0.1.1a",
   "description": "A Vumi Go USSD application finding directions.",
-  "main": "index.js",
+  "main": "lib/google-maps.js",
   "directories": {
     "test": "test"
   },
@@ -10,7 +10,8 @@
     "vumigo_v02": "~0.2",
     "q": "~0.9",
     "lodash": "~2.4.1",
-    "moment": "~2.5.1"
+    "moment": "~2.5.1",
+    "go-jsbox-location": "0.1.1"
   },
   "devDependencies": {
     "mocha": "~1.18",
@@ -23,7 +24,7 @@
     "grunt-cli": "~0.1.13"
   },
   "scripts": {
-    "test": "mocha -R list"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
