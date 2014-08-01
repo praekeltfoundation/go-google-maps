@@ -6,7 +6,7 @@ go-google-maps
 Directions from Google maps via USSD &amp; SMS
 
     $ npm install
-    $ grunt test
+    $ npm test
 
 .. |travis| image:: https://travis-ci.org/praekelt/go-google-maps.png?branch=develop
 .. _travis: https://travis-ci.org/praekelt/go-google-maps
