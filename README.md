@@ -1,7 +1,12 @@
 go-google-maps
 ==============
 
+|travis|_
+
 Directions from Google maps via USSD &amp; SMS
 
-    $ npm install mocha vumigo_v01 jed
-    $ npm test
+    $ npm install
+    $ grunt test
+
+.. |travis| image:: https://travis-ci.org/praekelt/go-google-maps.png?branch=develop
+.. _travis: https://travis-ci.org/praekelt/go-google-maps
