@@ -147,19 +147,19 @@ describe("app", function() {
                         })
                         .run();
                 });  
-                describe('If the user enters a cell number', function() {
-                    it('should respond message has been sent', function(){
-                        tester.setup.user.state('states:custom_to_addr');
-                        return tester
-                            .inputs('0741234567')
-                            .check.interaction({
-                                state:'states:end',
-                                reply: "Directions sent!"
-                            })
-                            .run();
-                    });
-                });  
             });
+            describe('If the user enters a cell number', function() {
+                it('should respond that the message has been sent', function(){
+                    tester.setup.user.state('states:custom_to_addr');
+                    return tester
+                        .inputs('0741234567')
+                        .check.interaction({
+                            state:'states:end',
+                            reply: "Directions sent!"
+                        })
+                        .run();
+                });
+            });  
             describe('If the user selects themself', function(){
                 it('should respond that the message has been sent', function(){
                     tester.setup.user.state('states:send_dir');
