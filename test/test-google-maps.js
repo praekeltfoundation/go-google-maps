@@ -153,8 +153,9 @@ describe("app", function() {
                     .run();
             });
             it('should ask the user where they want to send', function() {
-                tester.setup.user.state('states:send_dir');
+                tester.setup.user.state('states:end_loc');
                 return tester
+                        .input('Example Street')
                        .check.interaction({
                         state: 'states:send_dir',
                         reply: [
@@ -185,7 +186,8 @@ describe("app", function() {
             });
             describe('If the user enters a cell number', function() {
                 beforeEach(function(){
-                    tester.inputs('Start Street', 'Example Street', '2', '0741234567');
+                    tester.inputs('Start Street', 'Example Street', '2', 
+                        '0741234567');
                 });
                 it('should respond that the message has been sent', function(){
                     return tester
@@ -202,7 +204,9 @@ describe("app", function() {
                             var message = messages[messages.length -2];
                             assert.deepEqual(message, {
                                 to_addr: '+27741234567',
-                                content: '1. Head east',
+                                content: ['1. Head north on Av. Reconquista '+
+                                    'towards Calle de la Diputación',
+                                    '2. Head east'].join('\n'),
                                 endpoint: 'sms'
                             });
                         })
@@ -228,7 +232,9 @@ describe("app", function() {
                             var message = messages[messages.length -2];
                             assert.deepEqual(message, {
                                 to_addr: '+27123456789',
-                                content: '1. Head east',
+                                content: ['1. Head north on Av. Reconquista '+
+                                    'towards Calle de la Diputación',
+                                    '2. Head east'].join('\n'),
                                 endpoint: 'sms'
                             });
                         })
@@ -263,14 +269,6 @@ describe("app", function() {
                 return tester
                     .check(function(){
                         assert.equal(app.normalize_msisdn('0027741234567','27'), 
-                            '+27741234567');
-                    })
-                    .run();
-            });
-            it("Should handle the `0` case", function() {
-                return tester
-                    .check(function() {
-                        assert.equal(app.normalize_msisdn('0741234567','27'), 
                             '+27741234567');
                     })
                     .run();

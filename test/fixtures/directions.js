@@ -68,6 +68,29 @@ module.exports = function() {
                "steps" : [
                   {
                      "distance" : {
+                        "text" : "0.6 km",
+                        "value" : 614
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 83
+                     },
+                     "end_location" : {
+                        "lat" : 39.8680977,
+                        "lng" : -4.029395399999999
+                     },
+                     "html_instructions" : "Head \u003cb\u003enorth\u003c/b\u003e on \u003cb\u003eAv. Reconquista\u003c/b\u003e towards \u003cb\u003eCalle de la Diputación\u003c/b\u003e",
+                     "polyline" : {
+                        "points" : "quhrFdrqWUHULC?k@Rw@Vg@LeD~@aD~@{@Tk@Ns@VODsA`@u@TaATyA`@UHOBG@E?WC"
+                     },
+                     "start_location" : {
+                        "lat" : 39.8628115,
+                        "lng" : -4.0273884
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
                         "text" : "1 ft",
                         "value" : 0
                      },
