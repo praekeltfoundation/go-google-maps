@@ -81,6 +81,23 @@ describe("app", function() {
                     status:"OK"
                 }
             });
+
+            locations.add_location({
+                request:"c",
+                response_data: {
+                    results: 
+                    [{
+                        geometry: {
+                            location:{
+                                latitude: '2',
+                                longitude: '2'
+                            }
+                        }
+                    }],
+                    status:"OK"
+                }
+            });
+
             tester
                 .setup.config.app({
                     name: 'googlemaps',
@@ -257,9 +274,30 @@ describe("app", function() {
         });
 
         describe("If Google Maps gives a strange response", function() {
-            it("Should give an error message", function() {
+            it("Should give an error message for no steps", function() {
                 return tester
                     .inputs('b', 'a', '1')
+                    .check.interaction({
+                        state:'states:end',
+                        reply: ['Error, cannot find directions for the given',
+                            'locations.'].join(' ')
+                    })
+                    .run();
+            });
+            it("Should give an error message for no legs", function() {
+                return tester
+                    .inputs('c', 'b', '1')
+                    .check.interaction({
+                        state:'states:end',
+                        reply: ['Error, cannot find directions for the given',
+                            'locations.'].join(' ')
+                    })
+                    .run();
+            });
+
+            it("Should give an error message for no routes", function() {
+                return tester
+                    .inputs('b', 'c', '1')
                     .check.interaction({
                         state:'states:end',
                         reply: ['Error, cannot find directions for the given',
