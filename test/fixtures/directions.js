@@ -5,6 +5,24 @@ module.exports = function() {
       "method": "GET",
       "url": "http://maps.googleapis.com/maps/api/directions/json",
       "params": {
+        "origin":"3,2",
+        "destination":"3,2",
+        "sensor":"false"
+      }
+    },
+    "response":{
+      "code": 200,
+      "data": [{
+         "routes" : [],
+         "status" : "ZERO_RESULTS"
+      }]
+    }
+  },
+  {
+    "request": {
+      "method": "GET",
+      "url": "http://maps.googleapis.com/maps/api/directions/json",
+      "params": {
         "origin":"1.6180339887,1.4142135623",
         "destination":"3.1415926535,2.7182818284",
         "sensor":"false"

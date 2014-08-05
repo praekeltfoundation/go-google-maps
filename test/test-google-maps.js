@@ -50,6 +50,37 @@ describe("app", function() {
                 }
             });
 
+            locations.add_location({
+                request:"a",
+                response_data: {
+                    results: 
+                    [{
+                        geometry: {
+                            location:{
+                                latitude: '2',
+                                longitude: '3'
+                            }
+                        }
+                    }],
+                    status:"OK"
+                }
+            });
+
+            locations.add_location({
+                request:"b",
+                response_data: {
+                    results: 
+                    [{
+                        geometry: {
+                            location:{
+                                latitude: '2',
+                                longitude: '3'
+                            }
+                        }
+                    }],
+                    status:"OK"
+                }
+            });
             tester
                 .setup.config.app({
                     name: 'googlemaps',
@@ -79,7 +110,7 @@ describe("app", function() {
 
         describe("When the user enters their start location", function(){
             beforeEach(function(){
-                return tester.input('Start Street');
+                tester.input('Start Street');
             });
             it("should store the location in the contact store", function() {
                 return tester
@@ -154,7 +185,7 @@ describe("app", function() {
             });
             describe('If the user enters a cell number', function() {
                 beforeEach(function(){
-                    return tester.inputs('Start Street', 'Example Street', '2', '0741234567');
+                    tester.inputs('Start Street', 'Example Street', '2', '0741234567');
                 });
                 it('should respond that the message has been sent', function(){
                     return tester
@@ -180,7 +211,7 @@ describe("app", function() {
             });  
             describe('If the user selects themself', function(){
                 beforeEach(function(){
-                    return tester.inputs('Start Street', 'Example Street', '1');
+                    tester.inputs('Start Street', 'Example Street', '1');
                 });
                 it('should respond that the message has been sent', function(){
                     return tester
@@ -203,6 +234,19 @@ describe("app", function() {
                         })
                         .run();
                 });
+            });
+        });
+
+        describe("When the user selects incorrect locations", function() {
+            it("Should give an error message", function() {
+                return tester
+                    .inputs('a', 'b', '1')
+                    .check.interaction({
+                        state:'states:end',
+                        reply: ['Error, cannot find directions for the given',
+                            'locations.'].join(' ')
+                    })
+                    .run();
             });
         });
 
