@@ -14,14 +14,12 @@ go.app = function() {
     var Choice = vumigo.states.Choice;
     var FreeText = vumigo.states.FreeText;
     var JsonApi = vumigo.http.api.JsonApi;
-    var OutboundHelper = vumigo.outbound.api.OutboundHelper;
 
     var GoogleMaps = App.extend(function(self) {
         App.call(self, 'states:start_loc');
 
         self.init = function() {
             self.http = new JsonApi(self.im);
-            self.obh = new OutboundHelper(self.im);
         };
 
         self.states.add('states:start_loc', function(name) {
@@ -61,12 +59,11 @@ go.app = function() {
         });
 
         // This function normalizes cellphone number inputs
-        self.normalize_msisdn = function(number) {
+        self.normalize_msisdn = function(number, country_code) {
             // Remove invalid characters
-            number = number.replace(/( |[^0-9+])/g, '');
+            number = number.replace(/[^0-9+]/g, '');
             // Handle ``00`` case
             number = number.replace(/^0{2}/, '+');
-            var country_code = self.im.config.country_code;
             if(country_code){
                 // Handle ``0`` case
                 number = number.replace(/^0/, ['+',country_code].join(''));
@@ -84,7 +81,8 @@ go.app = function() {
                 next: function(content){
                     // normalize if the endpoint is cellphone
                     if(self.im.config.endpoint === 'sms') {
-                        content = self.normalize_msisdn(content);
+                        content = self.normalize_msisdn(content, 
+                            self.im.config.country_code);
                     }
                     // go to the end state if the input is valid
                     return content ? {
@@ -136,13 +134,13 @@ go.app = function() {
 
         self.send_message = function(addr, message) {
             if(addr) {
-                return self.obh.send({
+                return self.im.outbound.send({
                     to: addr,
                     endpoint: self.im.config.endpoint,
                     content: message
                 });
             } else {
-                return self.obh.send_to_user({
+                return self.im.outbound.send_to_user({
                     endpoint: self.im.config.endpoint,
                     content: message
                 });

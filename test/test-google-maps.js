@@ -210,14 +210,15 @@ describe("app", function() {
             it("Should remove invalid characters", function() {
                 return tester
                     .check(function() {
-                        assert.equal(app.normalize_msisdn('+12ab5 7'), '+1257');
+                        assert.equal(app.normalize_msisdn('+12ab5 7','27'), 
+                            '+1257');
                     })
                     .run();                
             });
             it("Should handle ``00`` case", function() {
                 return tester
                     .check(function(){
-                        assert.equal(app.normalize_msisdn('0027741234567'), 
+                        assert.equal(app.normalize_msisdn('0027741234567','27'), 
                             '+27741234567');
                     })
                     .run();
@@ -225,7 +226,7 @@ describe("app", function() {
             it("Should handle the `0` case", function() {
                 return tester
                     .check(function() {
-                        assert.equal(app.normalize_msisdn('0741234567'), 
+                        assert.equal(app.normalize_msisdn('0741234567','27'), 
                             '+27741234567');
                     })
                     .run();
@@ -233,7 +234,7 @@ describe("app", function() {
             it("Should handle the `0` case", function() {
                 return tester
                     .check(function() {
-                        assert.equal(app.normalize_msisdn('0741234567'), 
+                        assert.equal(app.normalize_msisdn('0741234567','27'), 
                             '+27741234567');
                     })
                     .run();
@@ -241,7 +242,7 @@ describe("app", function() {
             it("Should add the ``+`` in the case of country code", function() {
                 return tester
                     .check(function() {
-                        assert.equal(app.normalize_msisdn('27741234567'), 
+                        assert.equal(app.normalize_msisdn('27741234567','27'), 
                             '+27741234567');
                     })
                     .run();
@@ -249,7 +250,7 @@ describe("app", function() {
             it("should return null for incorrect numbers", function() {
                 return tester
                     .check(function() {
-                        assert.equal(app.normalize_msisdn('1234'), null);
+                        assert.equal(app.normalize_msisdn('1234','27'), null);
                     })
                     .run();
             });
