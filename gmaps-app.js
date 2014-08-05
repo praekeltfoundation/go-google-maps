@@ -124,6 +124,9 @@ go.app = function() {
         };
 
         self.process_directions = function(resp) {
+            if(!resp.routes || !resp.routes[0] || !resp.routes[0].legs || 
+                !resp.routes[0].legs[0] || !resp.routes[0].legs[0].steps)
+                return null;
             return resp.routes[0].legs[0].steps.map(function(step, index) {
                 return [
                     (index+1), '. ',
@@ -154,7 +157,8 @@ go.app = function() {
                         return null;
                     }
                     var directions = self.process_directions(resp);
-                    return self.send_message(opts.reply, directions);
+                    return directions === null ?
+                        null : self.send_message(opts.reply, directions);
                 })
                 .then(function(resp) {
                     return resp === null ? 
