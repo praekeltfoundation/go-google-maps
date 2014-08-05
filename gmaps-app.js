@@ -125,7 +125,8 @@ go.app = function() {
 
         self.process_directions = function(resp) {
             if(!resp.routes || !resp.routes[0] || !resp.routes[0].legs || 
-                !resp.routes[0].legs[0] || !resp.routes[0].legs[0].steps)
+                !resp.routes[0].legs[0] || !resp.routes[0].legs[0].steps
+                || !resp.routes[0].legs[0].steps[0])
                 return null;
             return resp.routes[0].legs[0].steps.map(function(step, index) {
                 return [
@@ -153,7 +154,7 @@ go.app = function() {
         self.states.add('states:end', function(name, opts) {
             return self.directions_lookup()
                 .then(function(resp) {
-                    if(resp.status === "ZERO_RESULTS") {
+                    if(resp.status !== "OK") {
                         return null;
                     }
                     var directions = self.process_directions(resp);

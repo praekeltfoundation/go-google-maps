@@ -73,8 +73,8 @@ describe("app", function() {
                     [{
                         geometry: {
                             location:{
-                                latitude: '2',
-                                longitude: '3'
+                                latitude: '3',
+                                longitude: '2'
                             }
                         }
                     }],
@@ -247,6 +247,19 @@ describe("app", function() {
             it("Should give an error message", function() {
                 return tester
                     .inputs('a', 'b', '1')
+                    .check.interaction({
+                        state:'states:end',
+                        reply: ['Error, cannot find directions for the given',
+                            'locations.'].join(' ')
+                    })
+                    .run();
+            });
+        });
+
+        describe("If Google Maps gives a strange response", function() {
+            it("Should give an error message", function() {
+                return tester
+                    .inputs('b', 'a', '1')
                     .check.interaction({
                         state:'states:end',
                         reply: ['Error, cannot find directions for the given',

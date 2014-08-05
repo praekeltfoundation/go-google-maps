@@ -5,7 +5,7 @@ module.exports = function() {
       "method": "GET",
       "url": "http://maps.googleapis.com/maps/api/directions/json",
       "params": {
-        "origin":"3,2",
+        "origin":"2,3",
         "destination":"3,2",
         "sensor":"false"
       }
@@ -15,6 +15,30 @@ module.exports = function() {
       "data": [{
          "routes" : [],
          "status" : "ZERO_RESULTS"
+      }]
+    }
+  },
+  {
+    "request": {
+      "method": "GET",
+      "url": "http://maps.googleapis.com/maps/api/directions/json",
+      "params": {
+        "origin":"3,2",
+        "destination":"2,3",
+        "sensor":"false"
+      }
+    },
+    "response":{
+      "code": 200,
+      "data": [{
+         "routes" : [{
+            "legs": [
+              {
+                "steps":[]
+              }
+            ]
+         }],
+         "status" : "OK"
       }]
     }
   },
