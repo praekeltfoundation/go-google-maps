@@ -85,7 +85,7 @@ go.app = function() {
                             self.im.config.country_code);
                     }
                     // go to the end state if the input is valid
-                    return content ? {
+                    return content !== null ? {
                         name: 'states:end',
                         creator_opts: {reply:content}
                         } : 'states:custom_to_addr';
