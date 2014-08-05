@@ -1,5 +1,5 @@
 var vumigo = require('vumigo_v02');
-var fixtures = require('./fixtures');
+var fixtures = require('./fixtures/directions');
 var AppTester = vumigo.AppTester;
 var LocationState = require('go-jsbox-location');
 var assert = require('assert');
@@ -54,11 +54,14 @@ describe("app", function() {
                 .setup.config.app({
                     name: 'googlemaps',
                     country_code: '27',
-                    endpoint: 'sms'
+                    endpoint: 'sms',
                 })
                 .setup(function(api) {
                     fixtures().forEach(api.http.fixtures.add);
                     locations.fixtures.forEach(api.http.fixtures.add);
+                })
+                .setup.config.endpoint('sms', {
+                    delivery_class: 'sms',
                 });
         });
 
@@ -75,9 +78,11 @@ describe("app", function() {
         });
 
         describe("When the user enters their start location", function(){
+            beforeEach(function(){
+                return tester.input('Start Street');
+            });
             it("should store the location in the contact store", function() {
                 return tester
-                    .input('Start Street')
                     .check(function(api){
                         var contact = api.contacts.store[0];
                         assert.equal(contact.extra[
@@ -92,7 +97,6 @@ describe("app", function() {
 
             it("should ask the user for an end location", function(){
                 return tester
-                    .input('Start Street')
                     .check.interaction({
                         state: 'states:end_loc',
                         reply: "Where do you want to go?"
@@ -149,25 +153,53 @@ describe("app", function() {
                 });  
             });
             describe('If the user enters a cell number', function() {
+                beforeEach(function(){
+                    return tester.inputs('Start Street', 'Example Street', '2', '0741234567');
+                });
                 it('should respond that the message has been sent', function(){
-                    tester.setup.user.state('states:custom_to_addr');
                     return tester
-                        .inputs('0741234567')
                         .check.interaction({
                             state:'states:end',
                             reply: "Directions sent!"
                         })
                         .run();
                 });
+                it('should send the directions to the contact', function() {
+                    return tester
+                        .check(function(api){
+                            var messages = api.outbound.store;
+                            var message = messages[messages.length -2];
+                            assert.deepEqual(message, {
+                                to_addr: '+27741234567',
+                                content: '1. Head east',
+                                endpoint: 'sms'
+                            });
+                        })
+                        .run();
+                });
             });  
             describe('If the user selects themself', function(){
+                beforeEach(function(){
+                    return tester.inputs('Start Street', 'Example Street', '1');
+                });
                 it('should respond that the message has been sent', function(){
-                    tester.setup.user.state('states:send_dir');
                     return tester
-                        .inputs(null, '1')
                         .check.interaction({
                             state: 'states:end',
                             reply: 'Directions sent!'
+                        })
+                        .run();
+                });
+                it('should send the directions to the user', function() {
+                    return tester
+                        .check(function(api){
+                            var messages = api.outbound.store;
+                            var message = messages[messages.length -2];
+                            assert.deepEqual(message, {
+                                to_addr: '+27123456789',
+                                content: '1. Head east',
+                                endpoint: 'sms'
+                            });
                         })
                         .run();
                 });
