@@ -12,10 +12,10 @@ module.exports = function() {
     },
     "response":{
       "code": 200,
-      "data": [{
+      "data": {
          "routes" : [],
          "status" : "ZERO_RESULTS"
-      }]
+      }
     }
   },
   {
@@ -30,7 +30,7 @@ module.exports = function() {
     },
     "response":{
       "code": 200,
-      "data": [{
+      "data": {
          "routes" : [{
             "legs": [
               {
@@ -39,7 +39,7 @@ module.exports = function() {
             ]
          }],
          "status" : "OK"
-      }]
+      }
     }
   },
   {
@@ -54,13 +54,13 @@ module.exports = function() {
     },
     "response":{
       "code": 200,
-      "data": [{
+      "data": {
          "routes" : [{
             "legs": [
             ]
          }],
          "status" : "OK"
-      }]
+      }
     }
   },
   {
@@ -75,10 +75,10 @@ module.exports = function() {
     },
     "response":{
       "code": 200,
-      "data": [{
+      "data": {
          "routes" : [],
          "status" : "OK"
-      }]
+      }
     }
   },
   {
@@ -93,7 +93,7 @@ module.exports = function() {
     },
     "response":{
       "code": 200,
-      "data": [
+      "data": 
         {
    "routes" : [
       {
@@ -189,7 +189,7 @@ module.exports = function() {
    ],
    "status" : "OK"
 }
-      ]
+      
     }
   }];
 };

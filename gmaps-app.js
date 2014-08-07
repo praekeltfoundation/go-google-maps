@@ -118,7 +118,7 @@ go.app = function() {
                         'http://maps.googleapis.com/maps/api/directions/json', {
                         params:param})
                         .then(function(resp){
-                            return resp.data[0];
+                            return resp.data;
                         });
                 });            
         };
