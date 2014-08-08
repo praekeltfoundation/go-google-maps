@@ -99,15 +99,15 @@ go.app = function() {
                 .then(function(contact) {
                     start = {
                         long:contact.extra
-                            ['startlocation:geometry:location:longitude'],
+                            ['startlocation:geometry:location:long'],
                         lat:contact.extra
-                            ['startlocation:geometry:location:latitude']
+                            ['startlocation:geometry:location:lat']
                     };
                     end = {
                         long:contact.extra
-                            ['endlocation:geometry:location:longitude'],
+                            ['endlocation:geometry:location:long'],
                         lat:contact.extra
-                            ['endlocation:geometry:location:latitude']
+                            ['endlocation:geometry:location:lat']
                     };
                     param = {
                             origin:[start.long,start.lat].join(','),
