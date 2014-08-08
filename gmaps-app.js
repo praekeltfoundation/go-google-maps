@@ -110,8 +110,8 @@ go.app = function() {
                             ['endlocation:geometry:location:lat']
                     };
                     param = {
-                            origin:[start.lng,start.lat].join(','),
-                            destination:[end.lng,end.lat].join(','),
+                            origin:[start.lat,start.lng].join(','),
+                            destination:[end.lat,end.lng].join(','),
                             sensor:'false'
                     };
                     return self.http.get(

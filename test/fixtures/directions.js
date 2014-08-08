@@ -5,8 +5,8 @@ module.exports = function() {
       "method": "GET",
       "url": "http://maps.googleapis.com/maps/api/directions/json",
       "params": {
-        "origin":"2,3",
-        "destination":"3,2",
+        "origin":"3,2",
+        "destination":"2,3",
         "sensor":"false"
       }
     },
@@ -23,8 +23,8 @@ module.exports = function() {
       "method": "GET",
       "url": "http://maps.googleapis.com/maps/api/directions/json",
       "params": {
-        "origin":"3,2",
-        "destination":"2,3",
+        "origin":"2,3",
+        "destination":"3,2",
         "sensor":"false"
       }
     },
@@ -48,7 +48,7 @@ module.exports = function() {
       "url": "http://maps.googleapis.com/maps/api/directions/json",
       "params": {
         "origin":"2,2",
-        "destination":"2,3",
+        "destination":"3,2",
         "sensor":"false"
       }
     },
@@ -68,7 +68,7 @@ module.exports = function() {
       "method": "GET",
       "url": "http://maps.googleapis.com/maps/api/directions/json",
       "params": {
-        "origin":"2,3",
+        "origin":"3,2",
         "destination":"2,2",
         "sensor":"false"
       }
@@ -86,8 +86,8 @@ module.exports = function() {
       "method": "GET",
       "url": "http://maps.googleapis.com/maps/api/directions/json",
       "params": {
-        "origin":"1.6180339887,1.4142135623",
-        "destination":"3.1415926535,2.7182818284",
+        "origin":"1.4142135623,1.6180339887",
+        "destination":"2.7182818284,3.1415926535",
         "sensor":"false"
       }
     },
