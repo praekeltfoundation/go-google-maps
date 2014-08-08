@@ -98,20 +98,20 @@ go.app = function() {
             return self.im.contacts.for_user()
                 .then(function(contact) {
                     start = {
-                        long:contact.extra
-                            ['startlocation:geometry:location:long'],
+                        lng:contact.extra
+                            ['startlocation:geometry:location:lng'],
                         lat:contact.extra
                             ['startlocation:geometry:location:lat']
                     };
                     end = {
-                        long:contact.extra
-                            ['endlocation:geometry:location:long'],
+                        lng:contact.extra
+                            ['endlocation:geometry:location:lng'],
                         lat:contact.extra
                             ['endlocation:geometry:location:lat']
                     };
                     param = {
-                            origin:[start.long,start.lat].join(','),
-                            destination:[end.long,end.lat].join(','),
+                            origin:[start.lng,start.lat].join(','),
+                            destination:[end.lng,end.lat].join(','),
                             sensor:'false'
                     };
                     return self.http.get(

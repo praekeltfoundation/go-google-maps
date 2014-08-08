@@ -24,7 +24,7 @@ describe("app", function() {
                         formatted_address:"Example Street, Suburb",
                         geometry: {
                             location:{
-                                long: '3.1415926535',
+                                lng: '3.1415926535',
                                 lat: '2.7182818284'
                             }
                         }
@@ -42,7 +42,7 @@ describe("app", function() {
                         geometry: {
                             location:{
                                 lat: '1.4142135623',
-                                long: '1.6180339887'
+                                lng: '1.6180339887'
                             }
                         }
                     }],
@@ -58,7 +58,7 @@ describe("app", function() {
                         geometry: {
                             location:{
                                 lat: '2',
-                                long: '3'
+                                lng: '3'
                             }
                         }
                     }],
@@ -74,7 +74,7 @@ describe("app", function() {
                         geometry: {
                             location:{
                                 lat: '3',
-                                long: '2'
+                                lng: '2'
                             }
                         }
                     }],
@@ -90,7 +90,7 @@ describe("app", function() {
                         geometry: {
                             location:{
                                 lat: '2',
-                                long: '2'
+                                lng: '2'
                             }
                         }
                     }],
@@ -134,7 +134,7 @@ describe("app", function() {
                     .check(function(api){
                         var contact = api.contacts.store[0];
                         assert.equal(contact.extra[
-                            'startlocation:geometry:location:long'],
+                            'startlocation:geometry:location:lng'],
                             '1.6180339887');
                         assert.equal(contact.extra[
                             'startlocation:geometry:location:lat'],
@@ -161,7 +161,7 @@ describe("app", function() {
                     .check(function(api) {
                         var contact = api.contacts.store[0];
                         assert.equal(contact.extra[
-                            'endlocation:geometry:location:long'],
+                            'endlocation:geometry:location:lng'],
                             '3.1415926535');
                         assert.equal(contact.extra[
                             'endlocation:geometry:location:lat'],
