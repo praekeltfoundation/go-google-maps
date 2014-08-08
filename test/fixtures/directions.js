@@ -5,24 +5,6 @@ module.exports = function() {
       "method": "GET",
       "url": "http://maps.googleapis.com/maps/api/directions/json",
       "params": {
-        "origin":"2,3",
-        "destination":"3,2",
-        "sensor":"false"
-      }
-    },
-    "response":{
-      "code": 200,
-      "data": [{
-         "routes" : [],
-         "status" : "ZERO_RESULTS"
-      }]
-    }
-  },
-  {
-    "request": {
-      "method": "GET",
-      "url": "http://maps.googleapis.com/maps/api/directions/json",
-      "params": {
         "origin":"3,2",
         "destination":"2,3",
         "sensor":"false"
@@ -30,7 +12,25 @@ module.exports = function() {
     },
     "response":{
       "code": 200,
-      "data": [{
+      "data": {
+         "routes" : [],
+         "status" : "ZERO_RESULTS"
+      }
+    }
+  },
+  {
+    "request": {
+      "method": "GET",
+      "url": "http://maps.googleapis.com/maps/api/directions/json",
+      "params": {
+        "origin":"2,3",
+        "destination":"3,2",
+        "sensor":"false"
+      }
+    },
+    "response":{
+      "code": 200,
+      "data": {
          "routes" : [{
             "legs": [
               {
@@ -39,7 +39,7 @@ module.exports = function() {
             ]
          }],
          "status" : "OK"
-      }]
+      }
     }
   },
   {
@@ -48,19 +48,19 @@ module.exports = function() {
       "url": "http://maps.googleapis.com/maps/api/directions/json",
       "params": {
         "origin":"2,2",
-        "destination":"2,3",
+        "destination":"3,2",
         "sensor":"false"
       }
     },
     "response":{
       "code": 200,
-      "data": [{
+      "data": {
          "routes" : [{
             "legs": [
             ]
          }],
          "status" : "OK"
-      }]
+      }
     }
   },
   {
@@ -68,17 +68,17 @@ module.exports = function() {
       "method": "GET",
       "url": "http://maps.googleapis.com/maps/api/directions/json",
       "params": {
-        "origin":"2,3",
+        "origin":"3,2",
         "destination":"2,2",
         "sensor":"false"
       }
     },
     "response":{
       "code": 200,
-      "data": [{
+      "data": {
          "routes" : [],
          "status" : "OK"
-      }]
+      }
     }
   },
   {
@@ -86,14 +86,14 @@ module.exports = function() {
       "method": "GET",
       "url": "http://maps.googleapis.com/maps/api/directions/json",
       "params": {
-        "origin":"1.6180339887,1.4142135623",
-        "destination":"3.1415926535,2.7182818284",
+        "origin":"1.4142135623,1.6180339887",
+        "destination":"2.7182818284,3.1415926535",
         "sensor":"false"
       }
     },
     "response":{
       "code": 200,
-      "data": [
+      "data": 
         {
    "routes" : [
       {
@@ -189,7 +189,7 @@ module.exports = function() {
    ],
    "status" : "OK"
 }
-      ]
+      
     }
   }];
 };

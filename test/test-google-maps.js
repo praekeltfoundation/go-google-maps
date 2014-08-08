@@ -24,8 +24,8 @@ describe("app", function() {
                         formatted_address:"Example Street, Suburb",
                         geometry: {
                             location:{
-                                longitude: '3.1415926535',
-                                latitude: '2.7182818284'
+                                lng: '3.1415926535',
+                                lat: '2.7182818284'
                             }
                         }
                     }],
@@ -41,8 +41,8 @@ describe("app", function() {
                         formatted_address:"Start Street, Suburb",
                         geometry: {
                             location:{
-                                latitude: '1.4142135623',
-                                longitude: '1.6180339887'
+                                lat: '1.4142135623',
+                                lng: '1.6180339887'
                             }
                         }
                     }],
@@ -57,8 +57,8 @@ describe("app", function() {
                     [{
                         geometry: {
                             location:{
-                                latitude: '2',
-                                longitude: '3'
+                                lat: '2',
+                                lng: '3'
                             }
                         }
                     }],
@@ -73,8 +73,8 @@ describe("app", function() {
                     [{
                         geometry: {
                             location:{
-                                latitude: '3',
-                                longitude: '2'
+                                lat: '3',
+                                lng: '2'
                             }
                         }
                     }],
@@ -89,8 +89,8 @@ describe("app", function() {
                     [{
                         geometry: {
                             location:{
-                                latitude: '2',
-                                longitude: '2'
+                                lat: '2',
+                                lng: '2'
                             }
                         }
                     }],
@@ -134,10 +134,10 @@ describe("app", function() {
                     .check(function(api){
                         var contact = api.contacts.store[0];
                         assert.equal(contact.extra[
-                            'startlocation:geometry:location:longitude'],
+                            'startlocation:geometry:location:lng'],
                             '1.6180339887');
                         assert.equal(contact.extra[
-                            'startlocation:geometry:location:latitude'],
+                            'startlocation:geometry:location:lat'],
                             '1.4142135623');
                     })
                     .run();
@@ -161,10 +161,10 @@ describe("app", function() {
                     .check(function(api) {
                         var contact = api.contacts.store[0];
                         assert.equal(contact.extra[
-                            'endlocation:geometry:location:longitude'],
+                            'endlocation:geometry:location:lng'],
                             '3.1415926535');
                         assert.equal(contact.extra[
-                            'endlocation:geometry:location:latitude'],
+                            'endlocation:geometry:location:lat'],
                             '2.7182818284');
                     })
                     .run();
