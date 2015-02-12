@@ -1,8 +1,12 @@
-var vumigo = require('vumigo_v02');
-var fixtures = require('./fixtures/directions');
-var AppTester = vumigo.AppTester;
-var LocationState = require('go-jsbox-location');
 var assert = require('assert');
+
+var vumigo = require('vumigo_v02');
+var AppTester = vumigo.AppTester;
+
+var location = require('go-jsbox-location');
+var googlemaps = location.providers.googlemaps;
+
+var fixtures = require('./fixtures/directions');
 
 describe("app", function() {
     describe("GoogleMaps", function() {
@@ -14,12 +18,12 @@ describe("app", function() {
 
             tester = new AppTester(app);
 
-            locations = LocationState.testing();
+            locations = [];
 
-            locations.add_location({
-                request:"Example Street",
+            locations.push({
+                query:"Example Street",
                 response_data: {
-                    results: 
+                    results:
                     [{
                         formatted_address:"Example Street, Suburb",
                         geometry: {
@@ -33,8 +37,8 @@ describe("app", function() {
                 }
             });
 
-            locations.add_location({
-                request:"Start Street",
+            locations.push({
+                query:"Start Street",
                 response_data: {
                     results: 
                     [{
@@ -50,8 +54,8 @@ describe("app", function() {
                 }
             });
 
-            locations.add_location({
-                request:"a",
+            locations.push({
+                query:"a",
                 response_data: {
                     results: 
                     [{
@@ -66,8 +70,8 @@ describe("app", function() {
                 }
             });
 
-            locations.add_location({
-                request:"b",
+            locations.push({
+                query:"b",
                 response_data: {
                     results: 
                     [{
@@ -82,8 +86,8 @@ describe("app", function() {
                 }
             });
 
-            locations.add_location({
-                request:"c",
+            locations.push({
+                query:"c",
                 response_data: {
                     results: 
                     [{
@@ -106,7 +110,9 @@ describe("app", function() {
                 })
                 .setup(function(api) {
                     fixtures().forEach(api.http.fixtures.add);
-                    locations.fixtures.forEach(api.http.fixtures.add);
+                    locations.forEach(function(location) {
+                        api.http.fixtures.add(googlemaps.fixture(location));
+                    });
                 })
                 .setup.config.endpoint('sms', {
                     delivery_class: 'sms',
@@ -134,10 +140,10 @@ describe("app", function() {
                     .check(function(api){
                         var contact = api.contacts.store[0];
                         assert.equal(contact.extra[
-                            'startlocation:geometry:location:lng'],
+                            'startlocation:lng'],
                             '1.6180339887');
                         assert.equal(contact.extra[
-                            'startlocation:geometry:location:lat'],
+                            'startlocation:lat'],
                             '1.4142135623');
                     })
                     .run();
@@ -161,10 +167,10 @@ describe("app", function() {
                     .check(function(api) {
                         var contact = api.contacts.store[0];
                         assert.equal(contact.extra[
-                            'endlocation:geometry:location:lng'],
+                            'endlocation:lng'],
                             '3.1415926535');
                         assert.equal(contact.extra[
-                            'endlocation:geometry:location:lat'],
+                            'endlocation:lat'],
                             '2.7182818284');
                     })
                     .run();
