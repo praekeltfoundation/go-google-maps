@@ -11,7 +11,7 @@
     "q": "~0.9",
     "lodash": "~2.4.1",
     "moment": "~2.5.1",
-    "go-jsbox-location": "0.1.1"
+    "go-jsbox-location": "~0.2"
   },
   "devDependencies": {
     "mocha": "~1.18",
